@@ -286,12 +286,11 @@ function ProductList() {
 		e.preventDefault();
 		setShowCart(false);
 	};
-	const handleAddToCart = (e) => {
-		e.preventDefault();
-		dispatch(addItem(e));
+	const handleAddToCart = (product) => {
+		dispatch(addItem(product));
 		setAddedToCart((prevState) => ({
 			...prevState,
-			[e.name]: true,
+			[product.name]: true,
 		}));
 	};
 	return (
