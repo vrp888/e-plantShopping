@@ -1,5 +1,6 @@
 /* LandingPage.css */
 * {
+  font-family: 'Segoe UI', Tahoma, sans-serif;
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -33,13 +34,13 @@
  top: 100px;
   backdrop-filter: blur(4px);
   background-color: rgba(0,0,0,0.5);
-  gap: 20px;
+  gap: 80px;
 }
 
 .landing_content {
- margin-top: 430px;
-  margin-left: 100px;
-  transform: translate(-50%, -50%);
+  /* margin-top: 430px; */
+  /* margin-left: 100px; */
+  /* transform: translate(-50%, -50%); */
   z-index: 1;
   text-align: center;
   /* background-color: red; */
