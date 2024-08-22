@@ -8,9 +8,7 @@ function ProductList() {
     const cart = useSelector(state => state.cart.items);
 	const dispatch = useDispatch();
 
-	const [addedToCart, setAddedToCart] = useState({});
 	const [showCart, setShowCart] = useState(false);
-	const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
 
 	const plantsArray = [
 		{
@@ -280,7 +278,6 @@ function ProductList() {
 	};
 	const handlePlantsClick = (e) => {
 		e.preventDefault();
-		setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
 		setShowCart(false); // Hide the cart when navigating to About Us
 	};
 	const handleContinueShopping = () => {
@@ -288,10 +285,6 @@ function ProductList() {
 	};
 	const handleAddToCart = (product) => {
 		dispatch(addItem(product));
-		setAddedToCart((prevState) => ({
-			...prevState,
-			[product.name]: true,
-		}));
 	};
 	return (
 		<div>
@@ -359,7 +352,10 @@ function ProductList() {
                                 }}>{category.category}</div>
 							</h1>
 							<div className="product-list">
-								{category.plants.map((plant, plantIndex) => (
+								{category.plants.map((plant, plantIndex) => {
+									const isItemInCart = cart.some(item => item.name === plant.name);
+
+									return (
 									<div className="product-card" key={plantIndex}>
                                         <div className="product-title">{plant.name}</div>
 
@@ -372,14 +368,15 @@ function ProductList() {
                                         <div className="product-price">{plant.cost}</div>
                                         <p style={{ marginBottom: "5px" }}>{plant.description}</p>
 										<button
-											className={`product-button ${addedToCart[plant.name] ? "added-to-cart" : ""}`}
+											className={`product-button ${isItemInCart ? "added-to-cart" : ""}`}
 											onClick={() => handleAddToCart(plant)}
-                                            disabled={addedToCart[plant.name]}
-										>
-											Add{addedToCart[plant.name] ? "ed" : ""} to Cart
+											disabled={isItemInCart}
+											>
+											Add{isItemInCart ? "ed" : ""} to Cart
 										</button>
 									</div>
-								))}
+									);
+								})}
 							</div>
 						</div>
 					))}
