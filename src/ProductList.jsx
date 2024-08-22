@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { addItem, removeItem, updateQuantity } from "./CartSlice";
 
 function ProductList() {
+    const cart = useSelector(state => state.cart.items);
 	const dispatch = useDispatch();
 
 	const [addedToCart, setAddedToCart] = useState({});
@@ -282,8 +283,7 @@ function ProductList() {
 		setShowPlants(true); // Set showAboutUs to true when "About Us" link is clicked
 		setShowCart(false); // Hide the cart when navigating to About Us
 	};
-	const handleContinueShopping = (e) => {
-		e.preventDefault();
+	const handleContinueShopping = () => {
 		setShowCart(false);
 	};
 	const handleAddToCart = (product) => {
@@ -301,6 +301,7 @@ function ProductList() {
 						<img
 							src="https://cdn.pixabay.com/photo/2020/08/05/13/12/eco-5465432_1280.png"
 							alt=""
+                            style={{ marginRight: "10px" }}
 						/>
 						<a href="/" style={{ textDecoration: "none" }}>
 							<div>
@@ -320,6 +321,7 @@ function ProductList() {
 					<div>
 						{" "}
 						<a href="#" onClick={(e) => handleCartClick(e)} style={styleA}>
+                            <div className="cart_quantity_count">{cart.length}</div>
 							<h1 className="cart">
 								<svg
 									xmlns="http://www.w3.org/2000/svg"
@@ -351,23 +353,30 @@ function ProductList() {
 					{plantsArray.map((category, index) => (
 						<div key={index}>
 							<h1>
-								<div>{category.category}</div>
+								<div style={{
+                                    textAlign: "center",
+                                    marginTop: "25px"
+                                }}>{category.category}</div>
 							</h1>
 							<div className="product-list">
 								{category.plants.map((plant, plantIndex) => (
 									<div className="product-card" key={plantIndex}>
+                                        <div className="product-title">{plant.name}</div>
+
 										<img
 											className="product-image"
 											src={plant.image}
 											alt={plant.name}
 										/>
-										<div className="product-title">{plant.name}</div>
-										{/*Similarly like the above plant.name show other details like description and cost*/}
+										
+                                        <div className="product-price">{plant.cost}</div>
+                                        <p style={{ marginBottom: "5px" }}>{plant.description}</p>
 										<button
-											className="product-button"
+											className={`product-button ${addedToCart[plant.name] ? "added-to-cart" : ""}`}
 											onClick={() => handleAddToCart(plant)}
+                                            disabled={addedToCart[plant.name]}
 										>
-											Add to Cart
+											Add{addedToCart[plant.name] ? "ed" : ""} to Cart
 										</button>
 									</div>
 								))}
